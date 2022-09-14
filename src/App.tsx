@@ -1,7 +1,7 @@
 import * as React from "react";
 
 //Import function to fetch data from API
-import { fetchQuestions, Difficulty, QuestionState } from "./API";
+import { fetchQuestions,  QuestionState } from "./API";
 
 //Imported Components
 import QuestionCard from "./components/QuestionCard";
@@ -22,6 +22,7 @@ export type AnswerObject = {
 };
 
 export default function App() {
+
   const [loading, setLoading] = React.useState<boolean>(false);
   const [questions, setQuestions] = React.useState<QuestionState[]>([]);
   const [number, setNumber] = React.useState<number>(0);
@@ -29,12 +30,14 @@ export default function App() {
   const [userAnswers, setUserAnswers] = React.useState<AnswerObject[]>([]);
   const [score, setScore] = React.useState<number>(0);
   const [complete, setComplete] = React.useState<boolean>(false);
-  const [difficulty, setDifficulty] = React.useState(Difficulty.EASY);
+ 
 
   const startQuiz = async () => {
     setComplete(false);
     setLoading(true);
-    const new_questions = await fetchQuestions(TOTAL_QUESTIONS, difficulty);
+    const new_questions = await fetchQuestions(TOTAL_QUESTIONS
+    
+      );
     setQuestions(new_questions);
     setLoading(false);
     setGameOver(false);
@@ -44,7 +47,13 @@ export default function App() {
     if (!gameOver) {
       const answer = e.currentTarget.value;
       const correct = questions[number].correct_answer === answer;
-      if (correct) setScore((prev) => prev + 1);
+      if (correct){
+        setScore((prev) => prev + 1)
+        alert("Correct Answer")
+      }else{
+        alert("Wrong Answer")
+      }
+      ;
       const answerObject = {
         question: questions[number].question,
         correctAnswer: questions[number].correct_answer,
@@ -60,9 +69,7 @@ export default function App() {
     else setComplete(true);
   };
 
-  const handleDifficulty = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setDifficulty(e.target.value);
-  };
+ 
 
   console.log(number);
 
@@ -70,7 +77,7 @@ export default function App() {
     <>
       <GlobalStyle />
       <Wrapper>
-        <h1>React Typescript Quiz</h1>
+        <h1>The Queen's English</h1>
         {complete && <div className="complete">Quiz is complete</div>}
 
         {gameOver || complete ? (
@@ -78,14 +85,7 @@ export default function App() {
             <button className="start" onClick={startQuiz}>
               Start Quiz
             </button>
-            <p>Select Difficulty</p>
-            <select value={difficulty} onChange={handleDifficulty}>
-              {Object.keys(Difficulty).map((key) => (
-                <option key={key} value={Difficulty[key]}>
-                  {key}
-                </option>
-              ))}
-            </select>
+          
           </>
         ) : null}
         {!gameOver ? <p className="score">Score: {score}</p> : null}

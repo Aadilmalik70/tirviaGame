@@ -1,6 +1,8 @@
-import styled, { createGlobalStyle } from "styled-components";
+// import styled, { createGlobalStyle } from "styled-components";
+import styled from "styled-components";
 //@ts-ignore
-import BG from "./images/BG.jpg";
+import banner from "./images/banner.png";
+import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
@@ -11,7 +13,7 @@ export const GlobalStyle = createGlobalStyle`
 
   body{
     font-family: 'Poppins', sans-serif;
-    background-image: url(${BG});
+    background-image: url(${banner});
     background-size: cover;
     margin: 0;
     padding: 0 20px;
